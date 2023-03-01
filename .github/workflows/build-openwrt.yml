@@ -26,7 +26,7 @@ env:
   CONFIG_FILE: .config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_BIN_DIR: false
+  UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
   UPLOAD_WETRANSFER: false
@@ -60,6 +60,14 @@ jobs:
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        
+    - name: Revise mt7621_xiaomi_mi-router-4a-3g-v2.dtsi
+      run: |
+        cp -f mt7621_xiaomi_mi-router-4a-3g-v2.dtsi openwrt/target/linux/ramips/dts
+        
+    - name: Revise mt7621.mk
+      run: |
+        cp -f mt7621.mk openwrt/target/linux/ramips/image
 
     - name: Load custom feeds
       run: |
